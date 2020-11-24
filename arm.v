@@ -39,7 +39,7 @@ module arm (
 		.ALUControl(ALUControl),
 		.MemWrite(MemWrite),
 		.MemtoReg(MemtoReg),
-		.PCSrc(PCSrc)
+		.PCSrc(PCSrc),
 		.RegByte(RegByte)
 	);
 	datapath dp(
@@ -57,7 +57,7 @@ module arm (
 		.Instr(Instr),
 		.ALUResult(ALUResult),
 		.WriteData(WriteData),
-		.ReadData(ReadData)
+		.ReadData(ReadData),
 		.RegByte(RegByte)
 	);
 endmodule

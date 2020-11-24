@@ -1,4 +1,5 @@
 `include "mux2.v"
+`include "mux4.v"
 `include "flopr.v"
 `include "adder.v"
 `include "regfile.v"
@@ -101,17 +102,17 @@ module datapath (
 		.d1(ReadData),
 		.s(MemtoReg),
 		.y(MenResult)
-	)
+	);
 
 
 	mux4 #(8) muxlbr(
-		.d0(ReadData[7:0]) 
-		.d1(ReadData[15:8])
-		.d2(ReadData[23:16])
-		.d3(ReadData[31:24])
-		.s(ALUResult[1:0]) //lo que pasa es que el offset es solo de 0 a 3
+		.d0(ReadData[7:0]), 
+		.d1(ReadData[15:8]),
+		.d2(ReadData[23:16]),
+		.d3(ReadData[31:24]),
+		.s(ALUResult[1:0]), //lo que pasa es que el offset es solo de 0 a 3
 		.y(byteResult)
-	)
+	);
 
 	mux2 #(32) resmux(
 		.d0(MenResult),
