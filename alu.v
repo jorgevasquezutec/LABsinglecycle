@@ -1,5 +1,5 @@
 module alu ( input [31:0] a,b,
-             input [1:0] ALUControl,
+             input [2:0] ALUControl,
              output reg [31:0] Result, //assign always block
              output wire [3:0] ALUFlags); //explicit wire for assign with {}
   
@@ -13,16 +13,18 @@ module alu ( input [31:0] a,b,
   
   /*
   ALUControl Logic
-  00: sum
-  01: sub
-  10: and
-  11: or
+  000: sum
+  001: sub
+  010: and
+  011: or
+  110: eor
   */
   always @(*)
-    casex (ALUControl[1:0]) //case, casex, casez
-      2'b0?: Result = sum;
-      2'b10: Result = a & b;
-      2'b11: Result = a | b;
+    casex (ALUControl[2:0]) //case, casex, casez
+      3'b00?: Result = sum;
+      3'b010: Result = a & b;
+      3'b011: Result = a | b;
+      3'b110: Result = a ^ b;
     endcase
   
  //flags: result -> negative, zero
