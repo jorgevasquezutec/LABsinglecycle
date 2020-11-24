@@ -43,6 +43,7 @@ module datapath (
 	wire [31:0] SrcA;
 	wire [31:0] SrcB;
 	wire [31:0] Result;
+	wire [7:0] byteResult;
 	wire [3:0] RA1;
 	wire [3:0] RA2;
 	mux2 #(32) pcmux(
@@ -73,6 +74,16 @@ module datapath (
 		.s(RegSrc[0]),
 		.y(RA1)
 	);
+
+	mux4 #(8) muxlbr(
+		.d0(ReadData[7:0]) 
+		.d1(ReadData[15:8])
+		.d2(ReadData[23:16])
+		.d3(ReadData[31:24])
+		.s(ALUResult[1:0]) //lo que pasa es que el offset es solo de 0 a 3
+		.y(byteResult)
+	)
+
 	mux2 #(4) ra2mux(
 		.d0(Instr[3:0]),
 		.d1(Instr[15:12]),
