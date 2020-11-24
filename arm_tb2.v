@@ -32,6 +32,10 @@ module testbench;
 				$display("Simulation succeeded");
 				$finish;
 			end
+			else if ((DataAdr === 128 & WriteData !== 254)) begin
+				$display("Simulation failed");
+				$finish;
+			end
 	
    
   initial begin
