@@ -23,6 +23,7 @@ module arm (
 	wire ALUSrc;
 	wire MemtoReg;
 	wire PCSrc;
+	wire RegByte;
 	wire [1:0] RegSrc;
 	wire [1:0] ImmSrc;
 	wire [2:0] ALUControl;
@@ -39,6 +40,7 @@ module arm (
 		.MemWrite(MemWrite),
 		.MemtoReg(MemtoReg),
 		.PCSrc(PCSrc)
+		.RegByte(RegByte)
 	);
 	datapath dp(
 		.clk(clk),
@@ -56,5 +58,6 @@ module arm (
 		.ALUResult(ALUResult),
 		.WriteData(WriteData),
 		.ReadData(ReadData)
+		.RegByte(RegByte)
 	);
 endmodule

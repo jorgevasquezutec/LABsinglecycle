@@ -19,7 +19,8 @@ module datapath (
 	Instr,
 	ALUResult,
 	WriteData,
-	ReadData
+	ReadData,
+	RegByte
 );
 	input wire clk;
 	input wire reset;
@@ -30,6 +31,7 @@ module datapath (
 	input wire [2:0] ALUControl;
 	input wire MemtoReg;
 	input wire PCSrc;
+	input wire RegByte;
 	output wire [3:0] ALUFlags;
 	output wire [31:0] PC;
 	input wire [31:0] Instr;
@@ -43,6 +45,7 @@ module datapath (
 	wire [31:0] SrcA;
 	wire [31:0] SrcB;
 	wire [31:0] Result;
+	wire [31:0] MenResult;
 	wire [7:0] byteResult;
 	wire [3:0] RA1;
 	wire [3:0] RA2;
@@ -75,14 +78,6 @@ module datapath (
 		.y(RA1)
 	);
 
-	mux4 #(8) muxlbr(
-		.d0(ReadData[7:0]) 
-		.d1(ReadData[15:8])
-		.d2(ReadData[23:16])
-		.d3(ReadData[31:24])
-		.s(ALUResult[1:0]) //lo que pasa es que el offset es solo de 0 a 3
-		.y(byteResult)
-	)
 
 	mux2 #(4) ra2mux(
 		.d0(Instr[3:0]),
@@ -101,12 +96,31 @@ module datapath (
 		.rd1(SrcA),
 		.rd2(WriteData)
 	);
-	mux2 #(32) resmux(
+	mux2 #(32) prevmux(
 		.d0(ALUResult),
 		.d1(ReadData),
 		.s(MemtoReg),
+		.y(MenResult)
+	)
+
+
+	mux4 #(8) muxlbr(
+		.d0(ReadData[7:0]) 
+		.d1(ReadData[15:8])
+		.d2(ReadData[23:16])
+		.d3(ReadData[31:24])
+		.s(ALUResult[1:0]) //lo que pasa es que el offset es solo de 0 a 3
+		.y(byteResult)
+	)
+
+	mux2 #(32) resmux(
+		.d0(MenResult),
+		.d1({24'b0,byteResult}),
+		.s(RegByte),
 		.y(Result)
 	);
+
+	
 	extend ext(
 		.Instr(Instr[23:0]),
 		.ImmSrc(ImmSrc),
