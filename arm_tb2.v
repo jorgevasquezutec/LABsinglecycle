@@ -32,10 +32,7 @@ module testbench;
 				$display("Simulation succeeded");
 				$finish;
 			end
-			else if (DataAdr !== 96) begin
-				$display("Simulation failed");
-				$finish;
-			end
+	
    
   initial begin
     $dumpfile("arm.vcd");

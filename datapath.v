@@ -116,7 +116,7 @@ module datapath (
 
 	mux2 #(32) resmux(
 		.d0(MenResult),
-		.d1({24'b0,byteResult}),
+		.d1({24'b000000000000000000000000,byteResult}),
 		.s(RegByte),
 		.y(Result)
 	);
